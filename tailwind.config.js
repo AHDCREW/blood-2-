@@ -7,13 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#8B0000',
-        accent: '#FF1744',
-        bg: '#0D0D0D',
-        surface: '#1A1A1A',
-        muted: '#2D2D2D',
-        text: '#F5F5F5',
-        textMuted: '#A0A0A0',
+        primary: '#B91C1C',
+        accent: '#DC2626',
+        bg: '#FFFFFF',
+        surface: '#FAFAFA',
+        muted: '#E5E5E5',
+        text: '#1A1A1A',
+        textMuted: '#737373',
       },
       fontFamily: {
         display: ['"Playfair Display"', 'serif'],

@@ -24,7 +24,7 @@ export const MOCK_BLOOD_AVAILABILITY = {
 };
 
 export const MOCK_RECENT_REQUESTS = [
-  { id: '1', patientName: 'Patient', bloodGroup: 'O+', hospital: 'City Hospital', urgency: 'Critical', status: 'Active', city: 'Mumbai' },
-  { id: '2', patientName: 'Patient', bloodGroup: 'A-', hospital: 'General Hospital', urgency: 'Urgent', status: 'Active', city: 'Delhi' },
-  { id: '3', patientName: 'Patient', bloodGroup: 'B+', hospital: 'Care Clinic', urgency: 'Normal', status: 'Fulfilled', city: 'Bangalore' },
+  { id: '1', patientName: 'Patient', bloodGroup: 'O+', hospital: 'City Hospital', urgency: 'Critical', status: 'Active', city: 'Mumbai', lat: 19.0760, lng: 72.8777 },
+  { id: '2', patientName: 'Patient', bloodGroup: 'A-', hospital: 'General Hospital', urgency: 'Urgent', status: 'Active', city: 'Delhi', lat: 28.7041, lng: 77.1025 },
+  { id: '3', patientName: 'Patient', bloodGroup: 'B+', hospital: 'Care Clinic', urgency: 'Normal', status: 'Fulfilled', city: 'Bangalore', lat: 12.9716, lng: 77.5946 },
 ];

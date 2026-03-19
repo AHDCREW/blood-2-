@@ -78,12 +78,19 @@ uvicorn main:app --reload --port 8000
 
 On some systems use `python3 -m pip install -r requirements.txt` if `pip3` is not found.
 
-Or from the project root:
+Or from the project root (script runs the API from the correct directory):
 
 ```bash
-pip3 install -r blood_donation_api/requirements.txt
-cd blood_donation_api && uvicorn main:app --reload --port 8000
+./run-api.sh
 ```
+
+Or manually from the project root:
+
+```bash
+cd blood_donation_api && python3 -m uvicorn main:app --reload --port 8000
+```
+
+**Important:** Run uvicorn from inside `blood_donation_api/` (or use `run-api.sh`). Running `uvicorn main:app` from the project root causes "Could not import module 'main'".
 
 API base URL: `http://localhost:8000`. Docs: `http://localhost:8000/docs`.
 
@@ -124,6 +131,7 @@ See interactive docs at `/docs` when the server is running.
 
 ## Troubleshooting
 
+- **`Error loading ASGI app. Could not import module "main"`** — You're running uvicorn from the project root. Either run from inside the backend folder: `cd blood_donation_api && python3 -m uvicorn main:app --reload --port 8000`, or from the project root use: `./run-api.sh`.
 - **`ModuleNotFoundError: No module named 'slowapi'`** — Dependencies not installed. Run `pip3 install -r requirements.txt` from the `blood_donation_api` directory.
 - **`Failed building wheel for pydantic-core`** / **Python 3.14 newer than PyO3's maximum** — Use Python 3.11 or 3.12: install via Homebrew (`brew install python@3.12`) or from [python.org](https://www.python.org/downloads/), then use that Python for install and run (see "Python version" above).
 - **`pip: command not found`** — Use `pip3` or `python3 -m pip install -r requirements.txt`.

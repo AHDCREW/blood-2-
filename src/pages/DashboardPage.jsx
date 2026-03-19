@@ -3,6 +3,7 @@ import apiClient from '../api/client';
 import { MOCK_BLOOD_AVAILABILITY, MOCK_RECENT_REQUESTS } from '../api/mockData';
 import { BLOOD_GROUPS } from '../utils/bloodGroups';
 import { RequestCard } from '../components/ui/RequestCard';
+import { OSMMap } from '../components/ui/OSMMap';
 
 function AvailabilityCard({ group, count }) {
   const status = count >= 10 ? 'green' : count >= 3 ? 'yellow' : 'red';
@@ -70,7 +71,15 @@ export function DashboardPage() {
 
         <section>
           <h2 className="font-semibold text-text mb-2">Map</h2>
-          <p className="text-textMuted text-sm">Location data will be shown here when a map API is integrated.</p>
+          <OSMMap
+            center={[20.5937, 78.9629]}
+            zoom={5}
+            markers={recentRequests
+              .filter((r) => r.lat != null && r.lng != null)
+              .map((r) => ({ id: r.id, lat: r.lat, lng: r.lng, label: `${r.hospital || 'Request'} — ${r.blood_group || ''}` }))}
+            className="rounded-xl overflow-hidden border border-muted"
+            height="320px"
+          />
         </section>
       </div>
     </main>

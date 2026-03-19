@@ -11,6 +11,7 @@ import { DonatePage } from './pages/DonatePage';
 import { RequestPage } from './pages/RequestPage';
 import { FindDonorsPage } from './pages/FindDonorsPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { ProfilePage } from './pages/ProfilePage';
 import { SOSPage } from './pages/SOSPage';
 
 function Layout({ children }) {
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/request" element={<Layout><RequestPage /></Layout>} />
             <Route path="/find-donors" element={<Layout><FindDonorsPage /></Layout>} />
             <Route path="/dashboard" element={<Layout><DashboardPage /></Layout>} />
+            <Route path="/profile" element={<Layout><ProtectedRoute><ProfilePage /></ProtectedRoute></Layout>} />
             <Route path="/sos" element={<SOSPage />} />
           </Routes>
         </ErrorBoundary>

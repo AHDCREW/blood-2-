@@ -182,18 +182,22 @@ async def create_sos(
 async def recent_requests(
     limit: int = Query(20, ge=1, le=50),
 ):
-    """List most recent active blood requests, sorted by created_at desc (no auth required)."""
-    from firebase_admin import firestore
-
+    """List most recent active blood requests, sorted by created_at desc (no auth required). Uses in-memory sort to avoid requiring a Firestore composite index."""
     db = get_db()
+    # No order_by in query = no composite index required; we sort in Python
     docs = (
         db.collection("blood_requests")
         .where("status", "==", "active")
-        .order_by("created_at", direction=firestore.Query.DESCENDING)
-        .limit(limit)
+        .limit(100)
         .stream()
     )
-    return [_doc_to_request_response(doc) for doc in docs]
+    doc_list = list(docs)
+    # Sort by created_at descending (Firestore Timestamp has .timestamp())
+    def _sort_key(d):
+        ts = d.to_dict().get("created_at")
+        return ts.timestamp() if ts and hasattr(ts, "timestamp") else 0.0
+    doc_list.sort(key=_sort_key, reverse=True)
+    return [_doc_to_request_response(d) for d in doc_list[:limit]]
 
 
 @router.get("/nearby", response_model=list[RequestResponse])

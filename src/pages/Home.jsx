@@ -23,7 +23,7 @@ export function Home() {
     <main className="min-h-screen">
       <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-4 overflow-hidden">
         <div className="absolute inset-0 bg-bg" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,0,0,0.35)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(185,28,28,0.08)_0%,transparent_70%)]" />
         <div className="relative z-10 text-center animate-fade-in-up">
           <div className="inline-block animate-float mb-6">
             <Droplets className="w-20 h-20 text-accent" aria-hidden />

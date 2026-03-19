@@ -8,6 +8,7 @@ from models.donor import (
     DonorCreate,
     DonorNearbyResponse,
     DonorResponse,
+    DonorUpdate,
     LocationSchema,
 )
 from services.geo_service import get_donors_within_radius
@@ -103,6 +104,63 @@ async def blood_availability():
         if bg:
             counts[bg] = counts.get(bg, 0) + 1
     return counts
+
+
+@router.get("/me", response_model=DonorResponse)
+async def get_my_donor_profile(current_user: dict = Depends(get_current_user)):
+    """Return current user's donor profile. 404 if not registered as donor."""
+    uid = current_user.get("uid")
+    db = get_db()
+    doc = db.collection("donors").document(uid).get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="Donor profile not found. Register as a donor first.")
+    data = doc.to_dict()
+    loc = data.get("location") or {}
+    return DonorResponse(
+        uid=data.get("uid", uid),
+        name=data.get("name", ""),
+        blood_group=data.get("blood_group", ""),
+        city=data.get("city", ""),
+        location=LocationSchema(lat=loc.get("lat", 0), lng=loc.get("lng", 0)),
+        available=data.get("available", True),
+        last_donated=date.fromisoformat(data["last_donated"]) if data.get("last_donated") else None,
+        created_at=firestore_ts_to_iso(data.get("created_at")),
+        updated_at=firestore_ts_to_iso(data.get("updated_at")),
+    )
+
+
+@router.patch("/me", response_model=DonorResponse)
+async def update_my_donor_profile(
+    body: DonorUpdate,
+    current_user: dict = Depends(get_current_user),
+):
+    """Update current donor's available and/or last_donated (e.g. after donating)."""
+    uid = current_user.get("uid")
+    db = get_db()
+    ref = db.collection("donors").document(uid)
+    doc = ref.get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="Donor profile not found. Register as a donor first.")
+    updates = {"updated_at": datetime.now(timezone.utc)}
+    if body.available is not None:
+        updates["available"] = body.available
+    if body.last_donated is not None:
+        updates["last_donated"] = body.last_donated.isoformat()
+    ref.update(updates)
+    doc = ref.get()
+    data = doc.to_dict()
+    loc = data.get("location") or {}
+    return DonorResponse(
+        uid=data.get("uid", uid),
+        name=data.get("name", ""),
+        blood_group=data.get("blood_group", ""),
+        city=data.get("city", ""),
+        location=LocationSchema(lat=loc.get("lat", 0), lng=loc.get("lng", 0)),
+        available=data.get("available", True),
+        last_donated=date.fromisoformat(data["last_donated"]) if data.get("last_donated") else None,
+        created_at=firestore_ts_to_iso(data.get("created_at")),
+        updated_at=firestore_ts_to_iso(data.get("updated_at")),
+    )
 
 
 @router.get("/{uid}")

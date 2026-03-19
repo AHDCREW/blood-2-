@@ -19,6 +19,7 @@ export function Navbar() {
     { to: '/request', label: 'Request' },
     { to: '/find-donors', label: 'Find Donors' },
     { to: '/dashboard', label: 'Dashboard' },
+    ...(user ? [{ to: '/profile', label: 'Profile' }] : []),
   ];
 
   return (
@@ -59,15 +60,24 @@ export function Navbar() {
                 <Bell className="w-5 h-5 text-textMuted" />
               </button>
               {user ? (
-                <button
-                  type="button"
-                  onClick={() => logout()}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted text-text hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-accent"
-                  aria-label="Log out"
-                >
-                  <User className="w-4 h-4" />
-                  <span className="text-sm">Log out</span>
-                </button>
+                <>
+                  <Link
+                    to="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-textMuted hover:text-text focus:outline-none focus:ring-2 focus:ring-accent"
+                  >
+                    <User className="w-4 h-4" />
+                    Profile
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => logout()}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted text-text hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-accent"
+                    aria-label="Log out"
+                  >
+                    <span className="text-sm">Log out</span>
+                  </button>
+                </>
               ) : (
                 <button
                   type="button"

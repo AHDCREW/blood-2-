@@ -52,24 +52,27 @@ export function DonorRegisterForm() {
     setLoading(true);
     try {
       await apiClient.post('/api/donors/register', {
-        full_name: form.fullName,
-        email: form.email,
-        phone: form.phone,
         blood_group: form.bloodGroup,
-        city: form.city,
-        lat: parseFloat(form.lat),
-        lng: parseFloat(form.lng),
-        last_donated_date: form.lastDonatedDate || null,
-        available_now: form.availableNow,
+        city: form.city.trim(),
+        location: { lat: parseFloat(form.lat), lng: parseFloat(form.lng) },
+        available: form.availableNow,
+        last_donated: form.lastDonatedDate || null,
+        fcm_token: null,
       });
       setModal({ open: true, success: true, title: 'Registered', message: 'You are registered as a donor. Thank you!' });
       setForm({ fullName: '', email: '', phone: '', bloodGroup: '', city: '', lat: '', lng: '', lastDonatedDate: '', availableNow: true });
     } catch (err) {
+      const detail = err.response?.data?.detail;
+      const errMsg = typeof detail === 'string'
+        ? detail
+        : Array.isArray(detail)
+          ? detail.map((x) => x.msg ?? x.message).filter(Boolean).join('. ')
+          : err.response?.data?.message;
       setModal({
         open: true,
         success: false,
         title: 'Error',
-        message: err.response?.data?.message || 'Registration failed. Please try again.',
+        message: errMsg || 'Registration failed. Please try again.',
       });
     } finally {
       setLoading(false);

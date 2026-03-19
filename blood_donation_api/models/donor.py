@@ -45,6 +45,7 @@ class DonorUpdate(BaseModel):
     """Partial update for donor."""
 
     available: bool | None = None
+    last_donated: date | None = None
 
 
 class DonorNearbyResponse(BaseModel):
