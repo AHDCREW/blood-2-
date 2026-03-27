@@ -1,0 +1,18 @@
+ # Firebase
+FIREBASE_CREDENTIALS_PATH=blood-b5985-firebase-adminsdk-fbsvc-c4f55728a8.json
+
+# Gmail SMTP (use App Password with 2FA enabled)
+GMAIL_USER=youremail@gmail.com
+GMAIL_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
+
+# Admin alert recipient for SOS
+ADMIN_EMAIL=admin@yourapp.com
+
+# Frontend origin for CORS and email links
+FRONTEND_URL=http://localhost:5173
+
+# Push notifications
+FCM_ENABLED=true
+
+# Rate limits (SlowAPI format)
+RATE_LIMIT_SOS=5/hour
