@@ -7,8 +7,30 @@
 @layer base {
   html {
     @apply antialiased;
+    min-height: 100%;
+    min-height: -webkit-fill-available;
   }
+
   body {
-    @apply bg-bg text-text font-sans min-h-screen;
+    @apply bg-bg text-text font-sans;
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+
+  #root {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Installed PWA (Add to Home Screen): slightly stronger app chrome */
+@media (display-mode: standalone) {
+  header[data-app-shell] {
+    box-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.06),
+      0 4px 14px rgba(0, 0, 0, 0.05);
+    background-color: rgba(255, 255, 255, 0.98);
   }
 }

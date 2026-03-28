@@ -8,6 +8,7 @@ class UserCreate(BaseModel):
     firebase_id_token: str = Field(..., description="Firebase ID token from client")
     name: str = Field(..., min_length=1)
     phone: str = Field(..., min_length=1)
+    blood_group: str | None = None
 
 
 class UserResponse(BaseModel):
@@ -17,6 +18,7 @@ class UserResponse(BaseModel):
     name: str
     email: str
     phone: str
+    blood_group: str | None = None
     created_at: str
 
     model_config = {"from_attributes": True}

@@ -30,6 +30,7 @@ async def register(body: UserCreate):
         "email": email,
         "name": body.name,
         "phone": body.phone,
+        "blood_group": body.blood_group,
         "created_at": datetime.now(timezone.utc),
     }
     user_ref.set(user_data, merge=True)
@@ -40,6 +41,7 @@ async def register(body: UserCreate):
         name=data.get("name", body.name),
         email=data.get("email", email),
         phone=data.get("phone", body.phone),
+        blood_group=data.get("blood_group", body.blood_group),
         created_at=firestore_ts_to_iso(data.get("created_at")),
     )
 
@@ -67,6 +69,7 @@ async def login(body: dict):
         name=data.get("name", ""),
         email=data.get("email", ""),
         phone=data.get("phone", ""),
+        blood_group=data.get("blood_group", ""),
         created_at=firestore_ts_to_iso(data.get("created_at")),
     )
 
@@ -85,5 +88,6 @@ async def me(current_user: dict = Depends(get_current_user)):
         name=data.get("name", ""),
         email=data.get("email", ""),
         phone=data.get("phone", ""),
+        blood_group=data.get("blood_group", ""),
         created_at=firestore_ts_to_iso(data.get("created_at")),
     )

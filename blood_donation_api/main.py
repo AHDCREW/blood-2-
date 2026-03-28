@@ -10,7 +10,7 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from firebase_config import get_db
-from routers import auth, donors, notifications, requests
+from routers import auth, donors, notifications, requests, admin
 from utils.rate_limiter import limiter
 
 load_dotenv()
@@ -43,6 +43,7 @@ app.include_router(auth.router)
 app.include_router(donors.router)
 app.include_router(requests.router)
 app.include_router(notifications.router)
+app.include_router(admin.router)
 
 
 @app.on_event("startup")
