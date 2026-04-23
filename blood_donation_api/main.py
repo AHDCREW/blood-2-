@@ -5,7 +5,8 @@ from datetime import datetime, timezone
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from starlette.requests import Request
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -44,6 +45,12 @@ app.include_router(donors.router)
 app.include_router(requests.router)
 app.include_router(notifications.router)
 app.include_router(admin.router)
+
+
+@app.options("/{full_path:path}")
+async def preflight_handler(full_path: str) -> Response:
+    """Explicit CORS preflight handler — returns 200 for all OPTIONS requests."""
+    return Response(status_code=200)
 
 
 @app.on_event("startup")

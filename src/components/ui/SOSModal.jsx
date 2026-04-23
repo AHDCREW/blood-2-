@@ -34,9 +34,11 @@ export function SOSModal({ open, onClose }) {
     try {
       await apiClient.post('/api/requests/sos', {
         blood_group: bloodGroup,
-        contact_number: contact,
-        lat,
-        lng,
+        contact: contact,
+        location: {
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+        },
       });
       setSuccess(true);
       setTimeout(() => {

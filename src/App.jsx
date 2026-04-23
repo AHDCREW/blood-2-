@@ -4,6 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { BloodAlertBanner } from './components/BloodAlertBanner';
+import { useBloodRequests } from './hooks/useBloodRequests';
 
 // PWA Use Components
 import { Navbar } from './components/Navbar';
@@ -64,12 +66,25 @@ const UserLayout = () => {
   );
 };
 
+/**
+ * GlobalAlertListener — mounted once inside BrowserRouter so it has access
+ * to useNavigate (via BloodAlertBanner). Listens to Firestore in real-time
+ * and shows a popup whenever a new blood request is posted by anyone.
+ */
+function GlobalAlertListener() {
+  const { newAlert, clearAlert } = useBloodRequests();
+  return <BloodAlertBanner request={newAlert} onClose={clearAlert} />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <Toaster position="top-center" toastOptions={{ className: 'bg-white rounded-xl shadow-lg border border-gray-100' }} />
       <BrowserRouter>
         <ErrorBoundary>
+          {/* Global real-time emergency alert — shown on every page */}
+          <GlobalAlertListener />
+
           <Routes>
             {/* User PWA Routes */}
             <Route path="/" element={<UserLayout />}>

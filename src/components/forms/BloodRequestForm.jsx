@@ -55,23 +55,28 @@ export function BloodRequestForm() {
     setLoading(true);
     setSubmitted(false);
     try {
-      const { data } = await apiClient.post('/api/requests/create', {
+      const payload = {
         patient_name: form.patientName,
         blood_group: form.bloodGroup,
-        hospital_name: form.hospitalName,
+        hospital: form.hospitalName,
         city: form.city,
-        contact_number: form.contactNumber,
-        urgency: form.urgency,
-        lat: parseFloat(form.lat),
-        lng: parseFloat(form.lng),
+        contact: form.contactNumber,
+        urgency: form.urgency.toLowerCase(),
+        location: {
+          lat: parseFloat(form.lat),
+          lng: parseFloat(form.lng),
+        },
         requester_email: form.requesterEmail,
-        additional_notes: form.additionalNotes || null,
-      });
-      setDonorsNotified(data?.donors_notified ?? 0);
+        notes: form.additionalNotes || null,
+      };
+      const { data } = await apiClient.post('/api/requests/create', payload);
+      setDonorsNotified(data?.notified_count ?? 0);
       setSubmitted(true);
     } catch (err) {
+      console.error(err);
       setDonorsNotified(0);
-      setSubmitted(true);
+      // Don't set submitted to true on error so the user can fix the form
+      setErrors({ location: 'Failed to submit request. Please try again.' });
     } finally {
       setLoading(false);
     }

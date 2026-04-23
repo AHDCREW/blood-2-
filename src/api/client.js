@@ -1,7 +1,18 @@
+/**
+ * Axios API client.
+ *
+ * In development: Vite proxies /api/* → FastAPI (vite.config.js).
+ *   This makes calls same-origin → geolocation works on HTTP LAN.
+ *   baseURL = '' (relative paths like '/api/requests/recent')
+ *
+ * In production: set VITE_API_URL to your HTTPS backend origin
+ *   and remove the proxy block.
+ */
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// Use relative base in dev (proxy handles it). In prod, VITE_API_URL points to HTTPS backend.
+const baseURL = import.meta.env.VITE_API_URL || '';
 
 export const apiClient = axios.create({
   baseURL,
