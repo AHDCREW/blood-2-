@@ -16,15 +16,13 @@ export function BloodAlertBanner({ request, onClose }) {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
 
-  // Animate in
   useEffect(() => {
     if (request) {
-      // tiny delay to let CSS transition kick in
       const t = setTimeout(() => setVisible(true), 20);
       return () => clearTimeout(t);
-    } else {
-      setVisible(false);
     }
+    const t = setTimeout(() => setVisible(false), 0);
+    return () => clearTimeout(t);
   }, [request]);
 
   if (!request) return null;

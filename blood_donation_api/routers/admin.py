@@ -1,6 +1,4 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from typing import Dict, Any, List
-from firebase_admin import auth as firebase_auth
 from firebase_config import get_db
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
@@ -24,7 +22,7 @@ async def get_admin_stats(is_admin: bool = Depends(verify_admin)):
     
     for d in donors_snap:
         total_donors += 1
-        bg = d.to_dict().get("bloodGroup")
+        bg = d.to_dict().get("blood_group")
         if bg in blood_groups:
             blood_groups[bg] += 1
 
@@ -36,7 +34,7 @@ async def get_admin_stats(is_admin: bool = Depends(verify_admin)):
     for r in requests_snap:
         total_reqs += 1
         data = r.to_dict()
-        if data.get("urgency") == "Critical":
+        if data.get("urgency") == "critical":
             emergency += 1
         if data.get("status") == "approved":
             approved += 1

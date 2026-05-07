@@ -4,27 +4,7 @@ import {
   FaUsers, FaSyringe, FaHospital, FaCheckCircle, FaExclamationTriangle
 } from 'react-icons/fa';
 
-export const AdminDashboard = () => {
-  const { stats, setStats, isLoading, setLoading } = useAdminStore();
-
-  useEffect(() => {
-    // Simulate fetching dashboard stats
-    setLoading(true);
-    setTimeout(() => {
-      setStats({
-        totalDonors: 1450,
-        activeDonors: 1205,
-        bloodRequests: 320,
-        approvedRequests: 280,
-        emergencyRequests: 15,
-        hospitalsRegistered: 45,
-        bloodGroupsCount: { 'A+': 320, 'O+': 450, 'B+': 210, 'AB+': 80, 'A-': 50, 'O-': 120, 'B-': 30, 'AB-': 10 }
-      });
-      setLoading(false);
-    }, 800);
-  }, [setLoading, setStats]);
-
-  const StatCard = ({ title, value, icon, color, trend }) => (
+const StatCard = ({ title, value, icon, color, trend }) => (
     <div className="bg-white p-5 lg:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between group hover:shadow-md transition-all">
       <div className="flex justify-between items-start mb-4">
         <div className={`p-3 rounded-xl bg-${color}-50 text-${color}-600 group-hover:scale-110 transition-transform`}>
@@ -39,7 +19,26 @@ export const AdminDashboard = () => {
         <p className="text-sm text-gray-500 font-medium uppercase tracking-wide mt-1">{title}</p>
       </div>
     </div>
-  );
+);
+
+export const AdminDashboard = () => {
+  const { stats, setStats, isLoading, setLoading } = useAdminStore();
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setStats({
+        totalDonors: 1450,
+        activeDonors: 1205,
+        bloodRequests: 320,
+        approvedRequests: 280,
+        emergencyRequests: 15,
+        hospitalsRegistered: 45,
+        bloodGroupsCount: { 'A+': 320, 'O+': 450, 'B+': 210, 'AB+': 80, 'A-': 50, 'O-': 120, 'B-': 30, 'AB-': 10 }
+      });
+      setLoading(false);
+    }, 800);
+  }, [setLoading, setStats]);
 
   return (
     <div className="animate-fade-in-up">

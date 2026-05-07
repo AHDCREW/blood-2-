@@ -13,8 +13,8 @@ export const Donate = () => {
   // Check if the current user is already registered as a donor
   useEffect(() => {
     if (!user) {
-      setChecking(false);
-      return;
+      const t = setTimeout(() => setChecking(false), 0);
+      return () => clearTimeout(t);
     }
     apiClient
       .get('/api/donors/me')
@@ -23,7 +23,6 @@ export const Donate = () => {
         setDonorProfile(res.data);
       })
       .catch(() => {
-        // 404 means not a donor yet — that's fine
         setIsDonor(false);
       })
       .finally(() => setChecking(false));

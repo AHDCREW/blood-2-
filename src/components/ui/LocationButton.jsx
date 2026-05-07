@@ -1,15 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { MapPin } from 'lucide-react';
 import { useGeolocation } from '../../hooks/useGeolocation';
 
 export function LocationButton({ onLocation, disabled }) {
   const { getLocation, loading, error, coords } = useGeolocation();
-  const onLocationRef = useRef(onLocation);
-  onLocationRef.current = onLocation;
 
   useEffect(() => {
-    if (coords && onLocationRef.current) onLocationRef.current(coords.lat, coords.lng);
-  }, [coords]);
+    if (coords && onLocation) onLocation(coords.lat, coords.lng);
+  }, [coords, onLocation]);
 
   const handleClick = () => getLocation();
 

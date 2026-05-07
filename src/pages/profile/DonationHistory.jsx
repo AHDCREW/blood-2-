@@ -22,7 +22,7 @@ export const DonationHistory = () => {
       <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
         {history.length > 0 ? (
           <div className="space-y-4">
-            {history.map((h, i) => (
+            {history.map((h) => (
               <div key={h.id} className="flex gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0">
                 <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center shrink-0">
                   <FaCheckCircle className="text-green-500" size={24} />

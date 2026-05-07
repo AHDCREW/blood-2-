@@ -23,5 +23,7 @@ export const db = getFirestore(app);
 if (typeof window !== 'undefined') {
   try {
     getAnalytics(app);
-  } catch (_) {}
+  } catch {
+    // may fail silently with ad blockers
+  }
 }

@@ -24,7 +24,7 @@ export const AdminAuth = () => {
         // dummy fallback
         navigate('/admin');
       }
-    } catch (error) {
+    } catch {
       toast.error('Invalid admin credentials');
     } finally {
       setIsLoading(false);
@@ -76,7 +76,7 @@ export const AdminAuth = () => {
             disabled={isLoading}
             className="w-full flex justify-center py-3.5 px-4 rounded-xl shadow-md text-sm font-bold text-white bg-primary hover:bg-red-700 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100"
           >
-            {isLoading ? 'Authenicating...' : 'Login to Dashboard'}
+            {isLoading ? 'Authenticating...' : 'Login to Dashboard'}
           </button>
         </form>
       </div>

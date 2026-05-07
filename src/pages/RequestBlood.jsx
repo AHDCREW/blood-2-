@@ -10,9 +10,7 @@ export const RequestBlood = () => {
   const [activeTab, setActiveTab] = useState('requests'); // 'requests' | 'new'
 
   // --- Real-time Firestore listener ---
-  const { requests, newAlert, clearAlert } = useBloodRequests(50);
-  // We don't use newAlert here — the global <GlobalAlertListener> in App.jsx handles the popup.
-  // But the requests list auto-updates live whenever anyone posts.
+  const { requests } = useBloodRequests(50);
 
   // Form State
   const [formData, setFormData] = useState({

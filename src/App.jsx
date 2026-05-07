@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
@@ -37,14 +37,14 @@ import { AdminAuth } from './pages/admin/AdminAuth';
 
 // User Layout specifically for PWA
 const UserLayout = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
+  const [loadedPath, setLoadedPath] = useState('');
+  const isLoading = loadedPath !== location.pathname;
 
   useEffect(() => {
-    setIsLoading(true);
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 400); 
+      setLoadedPath(location.pathname);
+    }, 400);
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
